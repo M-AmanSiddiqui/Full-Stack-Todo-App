@@ -1,6 +1,7 @@
 import { CheckCircle, Pencil, Trash2, ListTodo } from "lucide-react";
 
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -17,12 +18,12 @@ export default function Home() {
       Manage tasks, set reminders, and track progress all in one beautiful and simple app.
     </p>
     <div className="mt-8 flex justify-center">
-      <a
-        href="#"
+      <Link
+        to="/todo"
         className="px-6 py-3 rounded-2xl bg-yellow-400 text-black font-semibold hover:bg-yellow-500 transition"
       >
         Get Started
-      </a>
+      </Link>
     </div>
   </div>
 </section>

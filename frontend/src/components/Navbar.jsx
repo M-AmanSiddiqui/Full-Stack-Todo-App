@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { Link } from "react-router-dom"; // 👈 Add this
+import { Link } from "react-router-dom"; 
+import { PlusSquare } from "lucide-react";// 
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -99,7 +100,14 @@ export default function Navbar() {
             )}
           </button>
 
+
           {/* Auth Buttons */}
+             <Link
+            to="/todo"
+            className="block text-center rounded-xl bg-yellow-500 px-4 py-2 text-sm font-medium text-white shadow-md shadow-yellow-400/30"
+          >
+            <PlusSquare size={18} className="inline mr-1" /> Add Todo
+          </Link>
           {loggedIn ? (
             <>
               <button
@@ -179,6 +187,13 @@ export default function Navbar() {
         <div className="overflow-hidden">
           <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-2">
+                 <Link
+            to="/todo"
+            className="block text-center rounded-xl bg-yellow-500 px-4 py-2 text-sm font-medium text-white shadow-md shadow-yellow-400/30"
+          >
+            <PlusSquare size={18} className="inline mr-1" /> Add Todo
+          </Link>
+
               {loggedIn ? (
                 <button
                   onClick={() => setLoggedIn(false)}

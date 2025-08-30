@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Linkedin, Github } from "lucide-react";
+import { Facebook,  Linkedin, Github } from "lucide-react";
 import React from "react";
 
 export default function Footer() {
@@ -20,7 +20,6 @@ export default function Footer() {
             <h2 className="text-lg font-semibold">Follow Us</h2>
             <div className="flex space-x-4 mt-3">
               <a href="#" className="hover:text-gray-200"><Facebook /></a>
-              <a href="#" className="hover:text-gray-200"><Twitter /></a>
               <a href="#" className="hover:text-gray-200"><Linkedin /></a>
               <a href="#" className="hover:text-gray-200"><Github /></a>
             </div>
