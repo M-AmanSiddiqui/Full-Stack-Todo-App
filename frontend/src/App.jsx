@@ -6,8 +6,21 @@ import Home from "./pages/Home";
 import SignUp from "./pages/Signup";
 import SignIn from "./pages/Signin";
 import React from "react";
+import { useEffect } from "react";
+import { authActions } from "./store";
+import { useDispatch } from "react-redux";
 
 export default function App() {
+
+   const dispatch = useDispatch()
+  useEffect(() => {
+   const id = sessionStorage.getItem("id")
+  if (id){
+    dispatch(authActions.login())  
+  }
+    
+  }, [])
+  
   return (
     <Router>
       <div className="flex flex-col min-h-screen">

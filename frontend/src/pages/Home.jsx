@@ -81,12 +81,12 @@ export default function Home() {
         <p className="mt-4 text-lg">
           Sign up now and take full control of your tasks.
         </p>
-        <a
-          href="#"
+        <Link
+          to="/signup"
           className="mt-6 inline-block px-8 py-3 rounded-2xl bg-yellow-400 text-black font-semibold hover:bg-yellow-500 transition"
         >
           Create Free Account
-        </a>
+        </Link>
       </section>
 
     </div>

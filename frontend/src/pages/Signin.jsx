@@ -25,7 +25,7 @@ export default function SignIn() {
               await axios.post("http://localhost:1000/api/v1/signin", Inputs).then((response) => {
                sessionStorage.setItem("id",response.data.others._id);
                dispatch(authActions.login())
-                history("/todo")
+                history("/")
               })  
         }
   return (
