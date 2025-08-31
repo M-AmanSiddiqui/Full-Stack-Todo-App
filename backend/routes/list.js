@@ -6,8 +6,8 @@ const router = Router();
 //create
 router.post("/addTask" , async (req,res) => {
     try {
-          const {title , body , email} = req.body;
-    const existingUser = await User.findOne({ email });
+          const {title , body , id } = req.body;
+    const existingUser = await User.findById(id)
     if(existingUser){
         const list = new List({title,body,user: existingUser})
         await list.save().then(() => res.status(200).json({list}))
@@ -76,15 +76,6 @@ router.get("/getTasks/:id", async (req,res) => {
  res.status(200).json({ message: "No Tasks" })
   }
 });
-
-
-
-
-
-
-
-
-
 
 
 

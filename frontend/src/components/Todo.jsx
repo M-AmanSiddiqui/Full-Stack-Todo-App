@@ -1,17 +1,29 @@
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import TaskCard from "./TaskCard";
-
+import axios from "axios"
 export default function Todo() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [editId, setEditId] = useState(null);
   
-
+let id = sessionStorage.getItem("id")
   // Add or Update Task
-  const addTask = () => {
+  const addTask = async() => {
     if (!title.trim() || !body.trim()) return;
+    if(id){
+      await axios
+      .post("http://localhost:1000/api/v2/addTask",
+         { title: title,
+          body: body,
+          id: id,
+          })
+      .then((response) => {
+        console.log(response);
+        
+      })
+    }
 
     if (title.length > 20) {
       alert("❌ Title must be 20 characters or less!");
