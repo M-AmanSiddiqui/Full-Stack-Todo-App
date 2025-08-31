@@ -1,12 +1,58 @@
-# React + Vite
+# ✅ Todo App  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack **Task Management Application** built with **React, Node.js, Express, MongoDB**, and **Redux**.  
+This app allows users to **register, login, and manage their daily tasks** with a clean and modern UI.  
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 🚀 Features  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔐 Secure User Authentication (Login & Signup with JWT)  
+- 📝 Add, Edit, Delete Tasks  
+- 📖 Expandable Task Card (Read More / Read Less)  
+- ⚡ Toast Notifications (React-Toastify)  
+- 🎨 Modern UI with TailwindCSS & Lucide Icons  
+- 🗄️ MongoDB Atlas Database  
+
+
+
+## 🛠️ Tech Stack  
+
+**Frontend**  
+- ⚛️ React  
+- 🎨 TailwindCSS  
+- 🔔 React-Toastify  
+- 🔗 Axios  
+
+**Backend**  
+- 🟢 Node.js  
+- 🚂 Express.js  
+- 🍃 MongoDB (Mongoose ORM)  
+- 🔐 JWT Authentication  
+
+
+
+## 📂 Project Highlights  
+
+- 🔥 Built with **MERN Stack** for performance and scalability  
+- 💾 All tasks are stored in a **secure MongoDB database**  
+- 🌐 Optimized for modern browsers  
+- 📱 Fully responsive design  
+
+
+
+
+
+
+## ⭐ Support  
+
+If you like this project, don’t forget to **star ⭐ the repository**.  
+
+
+
+## 🧑‍💻 Author  
+
+**Aman Siddiqui**  
+💼 Full Stack Developer  
+📧 Email: m.amansiddiqui2024@gmail.com  
+🔗 [Portfolio](https://amansiddiqui.vercel.app/) | [LinkedIn](https://www.linkedin.com/in/aman-siddiqui-dev) | [GitHub](https://github.com/M-AmanSiddiqui)
