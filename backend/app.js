@@ -1,10 +1,11 @@
 import express from "express";
 const app = express()
+import cors from "cors"
 import ("./connection/conn.js")
 import auth from "./routes/auth.js";
 import list from "./routes/list.js";
 app.use(express.json())
-
+app.use(cors())
 app.get("/" , (req,res) => {
   res.send("Hello Node")
     

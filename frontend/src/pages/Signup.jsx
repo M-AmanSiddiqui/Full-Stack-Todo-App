@@ -1,8 +1,11 @@
 import React from "react";
 import { User, Mail, Lock } from "lucide-react";
 import { useState } from "react";
-
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 export default function SignUp() {
+
+    const history = useNavigate()
     const [Inputs , setInputs] = useState({
         "email": "" ,
         "username": "" , 
@@ -12,14 +15,25 @@ export default function SignUp() {
         const {name,value} = e.target;
         setInputs({...Inputs, [name]: value})
     }
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
-        console.log(Inputs);
-        setInputs({
+        await axios.post("http://localhost:1000/api/v1/register", Inputs).then((response) => {
+          if(response.data.message === "User Already Exists"){
+            alert(response.data.message)
+          }else{
+            alert(response.data.message)
+
+          
+          
+            setInputs({
         "email": "" ,
         "username": "" , 
         "password": ""
-    })
+    })}
+       history("/signin")   
+        })
+        
+      
         
     }
   return (
@@ -69,6 +83,7 @@ export default function SignUp() {
 
   <button
     type="submit"
+    onClick={submit}
     className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-xl transition"
   >
     Sign Up
