@@ -3,9 +3,12 @@ import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store";
 export default function SignIn() {
 
-  
+  const dispatch = useDispatch()
+
     const history = useNavigate()
     const [Inputs , setInputs] = useState({
           "email": "" ,
@@ -20,7 +23,8 @@ export default function SignIn() {
           const submit = async (e) => {
               e.preventDefault();
               await axios.post("http://localhost:1000/api/v1/signin", Inputs).then((response) => {
-               console.log(response.data.others._id);
+               sessionStorage.setItem("id",response.data.others._id);
+               dispatch(authActions.login())
                 history("/todo")
               })  
         }

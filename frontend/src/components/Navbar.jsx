@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom"; 
 import { PlusSquare } from "lucide-react";// 
-
+import { useSelector } from "react-redux";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  
+const isLoggedIn = useSelector((state) => state.isLoggedIn)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -108,8 +109,8 @@ export default function Navbar() {
           >
             <PlusSquare size={18} className="inline mr-1" /> Add Todo
           </Link>
-          {loggedIn ? (
-            <>
+         
+            
               <button
                 onClick={() => alert("Profile clicked")}
                 className="hidden sm:grid h-10 w-10 place-items-center overflow-hidden rounded-full ring-2 ring-transparent hover:ring-indigo-300 transition"
@@ -120,29 +121,39 @@ export default function Navbar() {
                   className="h-full w-full"
                 />
               </button>
-              <button
-                onClick={() => setLoggedIn(false)}
+         {!isLoggedIn && (
+  <>
+    <Link
+      to="/signup"
+      className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-green-500/30 hover:brightness-110 active:brightness-95 transition"
+    >
+      Signup
+    </Link>
+
+    <Link
+      to="/signin"
+      className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-indigo-500/30 hover:brightness-110 active:brightness-95 transition"
+    >
+      Login
+    </Link>
+  </>
+)}
+
+         {isLoggedIn && (
+
+<button
+               
                 className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-md shadow-red-500/30 hover:brightness-110 active:brightness-95 transition"
               >
                 Logout
               </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/signin"
-                className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-indigo-500/30 hover:brightness-110 active:brightness-95 transition"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-green-500/30 hover:brightness-110 active:brightness-95 transition"
-              >
-                Signup
-              </Link>
-            </>
-          )}
+          
+         )}
+             
+                
+            
+           
+          
 
           {/* Mobile Menu Toggle */}
           <button
@@ -194,29 +205,40 @@ export default function Navbar() {
             <PlusSquare size={18} className="inline mr-1" /> Add Todo
           </Link>
 
-              {loggedIn ? (
-                <button
-                  onClick={() => setLoggedIn(false)}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-md shadow-red-500/30"
+         {!isLoggedIn && (
+  <>
+    <Link
+      to="/signup"
+      className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-green-500/30"
+                  >
+      Signup
+    </Link>
+
+    <Link
+      to="/signin"
+      className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-green-500/30"
+                  >
+      Login
+    </Link>
+  </>
+)}
+
+         {isLoggedIn && (
+
+<button
+               
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-md shadow-red-500/30"
                 >
-                  Logout
-                </button>
-              ) : (
-                <>
-                  <Link
-                    to="/signin"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-indigo-500/30"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md shadow-green-500/30"
-                  >
-                    Signup
-                  </Link>
-                </>
-              )}
+                Logout
+              </button>
+          
+         )}
+
+
+            
+                 
+               
+             
             </div>
           </div>
         </div>
