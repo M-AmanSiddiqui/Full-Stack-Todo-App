@@ -50,7 +50,7 @@ If you like this project, don’t forget to **star ⭐ the repository**.
 
 
 
-## 🧑‍💻 Author  
+##  Author  
 
 **Aman Siddiqui**  
 💼 Full Stack Developer  
