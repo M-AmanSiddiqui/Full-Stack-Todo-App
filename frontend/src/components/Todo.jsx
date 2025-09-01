@@ -1,80 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import TaskCard from "./TaskCard";
-import axios from "axios"
+import axios from "axios";
+
 export default function Todo() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [editId, setEditId] = useState(null);
-  
-let id = sessionStorage.getItem("id")
-  // Add or Update Task
-  const addTask = async() => {
-    if (!title.trim() || !body.trim()) return;
-    if(id){
-      await axios
-      .post("http://localhost:1000/api/v2/addTask",
-         { title: title,
-          body: body,
-          id: id,
-          })
-      .then((response) => {
-        console.log(response);
-        
-      })
-    }
 
+  let userId = sessionStorage.getItem("id");
+
+  // Fetch Tasks
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:1000/api/v2/getTasks/${userId}`
+      );
+      if (response.data.list) {
+        setTasks(response.data.list);
+      } else {
+        setTasks([]);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) fetchTasks();
+  }, [userId]);
+
+  // Add / Update Task
+  const addTask = async () => {
+    if (!title.trim() || !body.trim()) return;
     if (title.length > 20) {
       alert("❌ Title must be 20 characters or less!");
       return;
     }
 
-    if (editId) {
-      setTasks(
-        tasks.map((task) =>
-          task.id === editId ? { ...task, title, body } : task
-        )
-      );
-      alert("Task updated! ✅");
-      setEditId(null);
-    } else {
-      const newTask = {
-        id: Date.now(),
-        title,
-        body,
-      };
-      setTasks([...tasks, newTask]);
+    try {
+      if (editId) {
+        // Update
+        await axios.put(
+          `http://localhost:1000/api/v2/updateTask/${editId}`,
+          { title, body }
+        );
+        alert("✅ Task updated!");
+        setEditId(null);
+      } else {
+        // Add
+        await axios.post("http://localhost:1000/api/v2/addTask", {
+          title,
+          body,
+          id: userId,
+        });
+      }
+      setTitle("");
+      setBody("");
+      fetchTasks();
+    } catch (error) {
+      console.error("Error adding/updating task:", error);
     }
-
-    setTitle("");
-    setBody("");
   };
 
   // Edit Task
   const editTask = (task) => {
     setTitle(task.title);
     setBody(task.body);
-    setEditId(task.id);
+    setEditId(task._id);
   };
 
   // Delete Task
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = async (taskId) => {
+    try {
+      await axios.delete(
+        `http://localhost:1000/api/v2/deleteTask/${taskId}/${userId}`
+      );
+      fetchTasks();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
-
-  // Toggle Read More/Read Less
- 
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center px-4 py-10">
       {/* Input Section */}
       <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-8 mb-10">
         <h1 className="text-3xl font-extrabold text-center text-indigo-600 mb-6">
-           Todo App
+          Todo App
         </h1>
 
-        {/* Input Fields */}
+        {/* Inputs */}
         <div className="grid grid-cols-1 gap-4 mb-6">
           <input
             type="text"
@@ -100,23 +117,18 @@ let id = sessionStorage.getItem("id")
         </button>
       </div>
 
-      {/* Task Container */}
+      {/* Task List */}
       <div className="w-full max-w-5xl rounded-2xl shadow-2xl p-8">
-        
-
-    
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">  
-            {tasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-               
-                editTask={editTask}
-                deleteTask={deleteTask}
-              />
-            ))}
-          </div>
-       
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+          {tasks.map((task) => (
+            <TaskCard
+              key={task._id}
+              task={task}
+              editTask={editTask}
+              deleteTask={() => deleteTask(task._id)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

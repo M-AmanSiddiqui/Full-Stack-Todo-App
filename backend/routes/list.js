@@ -3,84 +3,88 @@ import User from "../model/user.js";
 import List from "../model/list.js";
 
 const router = Router();
-//create
-router.post("/addTask" , async (req,res) => {
-    try {
-          const {title , body , id } = req.body;
-    const existingUser = await User.findById(id)
-    if(existingUser){
-        const list = new List({title,body,user: existingUser})
-        await list.save().then(() => res.status(200).json({list}))
-        existingUser.list.push(list)
-         existingUser.save();
-    }
-    } catch (error) {
-       console.log(error);
-       
-        
-    }
 
-})
-
-//update
-router.put("/updateTask/:id", async (req, res) => {
+// 🔹 Create Task
+router.post("/addTask", async (req, res) => {
   try {
-    const { title, body, email } = req.body;
-    const existingUser = await User.findOne({ email });
+    const { title, body, id } = req.body; // id = user ka id
+    const existingUser = await User.findById(id);
 
-    if (existingUser) {
-      const list = await List.findByIdAndUpdate(
-        req.params.id,
-        { title, body },
-        { new: true } // updated document return karega
-      );
-
-      if (!list) {
-        return res.status(404).json({ message: "Task not found" });
-      }
-
-      return res.status(200).json({ message: "Task Updated", list });
-    } else {
+    if (!existingUser) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    const list = new List({ title, body, user: existingUser });
+    await list.save();
+
+    existingUser.list.push(list);
+    await existingUser.save();
+
+    res.status(200).json({ list });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// delete
-router.delete("/deleteTask/:id", async (req, res) => {
+// 🔹 Update Task
+router.put("/updateTask/:taskId", async (req, res) => {
   try {
-    const { email } = req.body;
-    const existingUser = await User.findOneAndUpdate({email},{$pull:{list:req.params.id}})
+    const { title, body } = req.body;
+    const list = await List.findByIdAndUpdate(
+      req.params.taskId,
+      { title, body },
+      { new: true }
+    );
 
-    if (existingUser) {
-      await List.findByIdAndDelete(req.params.id);
-      return res.status(200).json({ message: "Task Deleted" });
+    if (!list) {
+      return res.status(404).json({ message: "Task not found" });
     }
+
+    res.status(200).json({ message: "Task Updated", list });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// 🔹 Delete Task
+router.delete("/deleteTask/:taskId/:userId", async (req, res) => {
+  try {
+    const { taskId, userId } = req.params;
+
+    const existingUser = await User.findByIdAndUpdate(userId, {
+      $pull: { list: taskId },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await List.findByIdAndDelete(taskId);
+
+    res.status(200).json({ message: "Task Deleted" });
   } catch (error) {
     console.error(error);
-   
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-//get Task
-router.get("/getTasks/:id", async (req,res) => {
-  const list =  await List.find({user: req.params.id}).sort({createdAt: -1})
-  if(list.length !== 0){
-    res.status(200).json({ list: list})
-  }
-  else{
- res.status(200).json({ message: "No Tasks" })
+// 🔹 Get All Tasks
+router.get("/getTasks/:id", async (req, res) => {
+  try {
+    const list = await List.find({ user: req.params.id }).sort({
+      createdAt: -1,
+    });
+    if (list.length !== 0) {
+      res.status(200).json({ list });
+    } else {
+      res.status(200).json({ message: "No Tasks" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
-
-
-
-
 
 export default router;
