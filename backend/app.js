@@ -8,17 +8,13 @@ import conn from "./connection/conn.js";
 import auth from "./routes/auth.js";
 import list from "./routes/list.js";
 
-// ✅ Load .env
 dotenv.config();
-
-// ✅ MongoDB connect
 conn();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// ✅ __dirname fix (for ES Modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,16 +22,16 @@ const __dirname = path.dirname(__filename);
 app.use("/api/v1", auth);
 app.use("/api/v2", list);
 
-// ✅ Serve frontend build (dist folder after vite build)
-app.use(express.static(path.resolve(__dirname, "/frontend/dist")));
+// ✅ Serve frontend build
+app.use(express.static(path.join(__dirname, "frontend/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "/frontenddist/index.html"));
+  res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
 });
 
-// ✅ Export app for vercel
+// ✅ Export app (for Vercel)
 export default app;
 
-// ✅ Local run ke liye (sirf jab node se run karo, vercel me nahi)
+// ✅ Local dev only
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 1000;
   app.listen(PORT, () => {
