@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 
 const conn = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://mamansiddiqui2024:aman1234@cluster0todo.qy1wtbv.mongodb.net/todolist"
-    );
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("✅ Connected to MongoDB");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error.message);
   }
 };
 
-conn();
+export default conn;
