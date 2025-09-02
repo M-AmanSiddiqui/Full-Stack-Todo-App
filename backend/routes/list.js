@@ -14,10 +14,10 @@ router.post("/addTask", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const list = new List({ title, body, user: existingUser });
+    const list = new List({ title, body, user: existingUser._id }); // ✅ _id pass karo
     await list.save();
 
-    existingUser.list.push(list);
+    existingUser.List.push(list); // ✅ "lists" hona chahiye
     await existingUser.save();
 
     res.status(200).json({ list });
@@ -26,6 +26,7 @@ router.post("/addTask", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 // 🔹 Update Task
 router.put("/updateTask/:taskId", async (req, res) => {
