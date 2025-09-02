@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+// ✅ Local development ke liye env load karo
+dotenv.config();
 
 const conn = async () => {
   try {
