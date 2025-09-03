@@ -23,7 +23,7 @@ export default function SignIn() {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`{$window.location.origin}/api/v1/signin`, Inputs);
+      const response = await axios.post("/api/v1/signin", Inputs);
 
       if (response.data && response.data.others) {
         sessionStorage.setItem("id", response.data.others._id);
