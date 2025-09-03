@@ -17,7 +17,7 @@ export default function Todo() {
   const fetchTasks = async () => {
     try {
       const response = await axios.get(
-        `{$window.location.origin}/api/v2/getTasks/${userId}`
+        `/api/v2/getTasks/${userId}`
       );
       if (response.data.list) {
         setTasks(response.data.list);
@@ -46,7 +46,7 @@ export default function Todo() {
       if (editId) {
         // Update
         await axios.put(
-          `{$window.location.origin}/api/v2/updateTask/${editId}`,
+          `/api/v2/updateTask/${editId}`,
           { title, body }
         );
 
@@ -61,7 +61,7 @@ export default function Todo() {
       } else {
         // Add
         const response = await axios.post(
-          "{$window.location.origin}/api/v2/addTask",
+          "/api/v2/addTask",
           {
             title,
             body,
@@ -95,7 +95,7 @@ export default function Todo() {
   const deleteTask = async (taskId) => {
     try {
       await axios.delete(
-        `{$window.location.origin}/api/v2/deleteTask/${taskId}/${userId}`
+        `/api/v2/deleteTask/${taskId}/${userId}`
       );
 
       setTasks((prev) => prev.filter((task) => task._id !== taskId));
