@@ -39,12 +39,13 @@ export default function TaskCard({ task, editTask, deleteTask }) {
         >
           <Pencil className="w-4 h-4" /> Edit
         </button>
-        <button
-          onClick={() => deleteTask(task.id)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-medium shadow-md hover:from-red-600 hover:to-red-700 hover:shadow-lg transition"
-        >
-          <Trash2 className="w-4 h-4" /> Delete
-        </button>
+       <button
+  onClick={() => deleteTask(task._id)} // <- change here
+  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-medium shadow-md hover:from-red-600 hover:to-red-700 hover:shadow-lg transition"
+>
+  <Trash2 className="w-4 h-4" /> Delete
+</button>
+
       </div>
     </div>
   );
