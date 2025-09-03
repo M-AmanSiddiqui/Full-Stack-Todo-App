@@ -22,11 +22,12 @@ const __dirname = path.dirname(__filename);
 app.use("/api/v1", auth);
 app.use("/api/v2", list);
 
-// ✅ Serve frontend build
-app.use(express.static(path.join(__dirname, "frontend/dist")));
+// ✅ Serve frontend build (correct path)
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
+
 
 // ✅ Export app (for Vercel)
 export default app;
